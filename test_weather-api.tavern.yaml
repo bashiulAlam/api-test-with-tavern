@@ -1,7 +1,25 @@
+test_name: Try to create a weather entry without providing authentication
+
+stages:
+  - name: Check that HTTP status code is 401
+    request:
+      url: http://localhost:8080/weather
+      json:
+        city: "berlin"
+        date: "11/06/2023"
+        temperature: 26
+      method: POST
+      headers:
+        content-type: 'application/json'
+    response:
+      status_code: 401
+
+---
+
 test_name: Create a weather entry
 
 stages:
-  - name: Check that HTTP status code is 200
+  - name: Check that HTTP status code is 200 and response body is same as request body
     request:
       url: http://localhost:8080/weather
       json:
@@ -20,3 +38,60 @@ stages:
         city: "berlin"
         date: "11/06/2023"
         temperature: 26
+
+---
+
+test_name: Try to create a weather entry with empty value in city
+
+stages:
+  - name: Check that HTTP status code is 401
+    request:
+      url: http://localhost:8080/weather
+      json:
+        city: ""
+        date: "11/06/2023"
+        temperature: 26
+      method: POST
+      headers:
+        Authorization: "Basic dXNlcjpwYXNzd29yZA=="
+        content-type: 'application/json'
+    response:
+      status_code: 400
+
+---
+
+test_name: Try to create a weather entry with empty value in date
+
+stages:
+  - name: Check that HTTP status code is 401
+    request:
+      url: http://localhost:8080/weather
+      json:
+        city: "berlin"
+        date: ""
+        temperature: 26
+      method: POST
+      headers:
+        Authorization: "Basic dXNlcjpwYXNzd29yZA=="
+        content-type: 'application/json'
+    response:
+      status_code: 400
+
+---
+
+test_name: Try to create a weather entry with wrong date format
+
+stages:
+  - name: Check that HTTP status code is 401
+    request:
+      url: http://localhost:8080/weather
+      json:
+        city: "berlin"
+        date: "11.01.2023"
+        temperature: 26
+      method: POST
+      headers:
+        Authorization: "Basic dXNlcjpwYXNzd29yZA=="
+        content-type: 'application/json'
+    response:
+      status_code: 400
