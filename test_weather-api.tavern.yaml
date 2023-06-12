@@ -1,3 +1,4 @@
+# POST weather API tests
 test_name: Try to create a weather entry without providing authentication
 
 stages:
@@ -79,6 +80,25 @@ stages:
 
 ---
 
+test_name: Try to create a weather entry with empty value in temperature
+
+stages:
+  - name: Check that HTTP status code is 401
+    request:
+      url: http://localhost:8080/weather
+      json:
+        city: "berlin"
+        date: "11/06/2023"
+        temperature:
+      method: POST
+      headers:
+        Authorization: "Basic dXNlcjpwYXNzd29yZA=="
+        content-type: 'application/json'
+    response:
+      status_code: 400
+
+---
+
 test_name: Try to create a weather entry with wrong date format
 
 stages:
@@ -95,3 +115,118 @@ stages:
         content-type: 'application/json'
     response:
       status_code: 400
+
+---
+
+test_name: Try to create a weather entry with empty request body
+
+stages:
+  - name: Check that HTTP status code is 401
+    request:
+      url: http://localhost:8080/weather
+      method: POST
+      headers:
+        Authorization: "Basic dXNlcjpwYXNzd29yZA=="
+        content-type: 'application/json'
+    response:
+      status_code: 400
+
+---
+
+#GET weather API tests
+test_name: Get weather entry without providing authentication
+
+stages:
+  - name: Check that HTTP status code is 500
+    request:
+      url: http://localhost:8080/weather
+      method: GET
+    response:
+      status_code: 500
+
+---
+
+test_name: Get weather entry without providing any query param
+
+stages:
+  - name: Check that HTTP status code is 200 and response body is empty
+    request:
+      url: http://localhost:8080/weather
+      method: GET
+      headers:
+        Authorization: "Basic dXNlcjpwYXNzd29yZA=="
+        content-type: 'application/json'
+    response:
+      status_code: 200
+      json: []
+
+---
+
+test_name: Get weather entry with city
+
+stages:
+  - name: Check that HTTP status code is 200
+    request:
+      url: http://localhost:8080/weather
+      method: GET
+      params:
+        city: "berlin"
+      headers:
+        Authorization: "Basic dXNlcjpwYXNzd29yZA=="
+        content-type: 'application/json'
+    response:
+      status_code: 200
+      headers:
+        Content-Type: 'application/json'
+
+---
+
+test_name: Get weather entry with date
+
+stages:
+  - name: Check that HTTP status code is 200
+    request:
+      url: http://localhost:8080/weather
+      method: GET
+      params:
+        date: "11/06/2023"
+      headers:
+        Authorization: "Basic dXNlcjpwYXNzd29yZA=="
+        content-type: 'application/json'
+    response:
+      status_code: 200
+      headers:
+        Content-Type: 'application/json'
+
+---
+
+test_name: Get weather entry with date in wrong format
+
+stages:
+  - name: Check that HTTP status code is 200
+    request:
+      url: http://localhost:8080/weather
+      method: GET
+      params:
+        date: "11.06.2023"
+      headers:
+        Authorization: "Basic dXNlcjpwYXNzd29yZA=="
+        content-type: 'application/json'
+    response:
+      status_code: 500
+
+---
+
+#Error API test
+test_name: Get error API response
+
+stages:
+  - name: Check that HTTP status code is 500
+    request:
+      url: http://localhost:8080/error
+      method: GET
+      headers:
+        Authorization: "Basic dXNlcjpwYXNzd29yZA=="
+        content-type: 'application/json'
+    response:
+      status_code: 500
