@@ -32,3 +32,11 @@ This project automates a couple of APIs built with SpringBoot [from this project
 
 ## Result Monitoring
 1. You can see the results from your IDE or terminal console
+
+## Building Docker Image
+
+- The project repository contains the *Dockerfile* to build a docker image of the project
+- To build the docker image run the command from terminal:
+    >  docker build -t {image_name} .
+- To run the image run the command from terminal:
+    >  docker run {image_name}
