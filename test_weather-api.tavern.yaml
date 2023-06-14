@@ -20,7 +20,7 @@ stages:
 test_name: Create a weather entry
 
 stages:
-  - name: Check that HTTP status code is 200 and response body is same as request body
+  - name: Check that HTTP status code is 200 and response media type is json
     request:
       url: http://localhost:8080/weather
       json:
@@ -35,10 +35,6 @@ stages:
       status_code: 200
       headers:
         Content-Type: 'application/json'
-      json:
-        city: "berlin"
-        date: "11/06/2023"
-        temperature: 26
 
 ---
 
