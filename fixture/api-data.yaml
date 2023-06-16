@@ -1,0 +1,13 @@
+---
+name: api data
+description: used for setting api related data
+
+variables:
+  endpoints:
+    createWeather: '/weather'
+    getWeather: '/weather'
+    errorApi: '/error'
+
+  headers:
+    contentType: 'application/json'
+    auth: 'Basic dXNlcjpwYXNzd29yZA=='

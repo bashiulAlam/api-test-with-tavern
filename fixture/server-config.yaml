@@ -1,0 +1,8 @@
+---
+name: server configs
+description: used for setting server config variables
+
+variables:
+  config:
+    baseUrl: http://localhost
+    port: 8080
