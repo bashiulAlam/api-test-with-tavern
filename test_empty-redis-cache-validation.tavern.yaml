@@ -1,0 +1,42 @@
+# GET weather API test for empty Redis cache
+test_name: Get weather entry with city when Redis cache is empty
+
+includes:
+  - !include fixture/server-config.yaml
+  - !include fixture/api-data.yaml
+  - !include fixture/test-data.yaml
+
+stages:
+  - name: Check that HTTP status code is 200 and response body is empty
+    request:
+      url: "{config.baseUrl:s}:{config.port:d}{endpoints.getWeather:s}"
+      method: GET
+      params:
+        city: "{valid.validCity:s}"
+      headers:
+        Authorization: "{headers.auth:s}"
+    response:
+      status_code: 200
+      json: []
+
+---
+
+test_name: Get weather entry with date when Redis cache is empty
+
+includes:
+  - !include fixture/server-config.yaml
+  - !include fixture/api-data.yaml
+  - !include fixture/test-data.yaml
+
+stages:
+  - name: Check that HTTP status code is 200 and response body is empty
+    request:
+      url: "{config.baseUrl:s}:{config.port:d}{endpoints.getWeather:s}"
+      method: GET
+      params:
+        date: "{valid.validDate:s}"
+      headers:
+        Authorization: "{headers.auth:s}"
+    response:
+      status_code: 200
+      json: []

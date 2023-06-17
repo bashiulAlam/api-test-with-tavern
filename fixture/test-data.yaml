@@ -5,7 +5,7 @@ description: used for setting data for request body
 variables:
   valid:
     validCity: 'berlin'
-    validDate: '10/10/2023'
+    validDate: '12/12/2025'
     validTemp: 30.5
 
   invalid:
