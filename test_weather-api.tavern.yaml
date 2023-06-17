@@ -4,15 +4,16 @@ test_name: Try to create a weather entry without providing authentication
 includes:
   - !include fixture/server-config.yaml
   - !include fixture/api-data.yaml
+  - !include fixture/test-data.yaml
 
 stages:
   - name: Check that HTTP status code is 401
     request:
       url: "{config.baseUrl:s}:{config.port:d}{endpoints.createWeather:s}"
       json:
-        city: "berlin"
-        date: "11/06/2023"
-        temperature: 26
+        city: "{valid.validCity:s}"
+        date: "{valid.validDate:s}"
+        temperature: "{valid.validTemp:f}"
       method: POST
       headers:
         content-type: "{headers.contentType:s}"
@@ -26,15 +27,16 @@ test_name: Create a weather entry
 includes:
   - !include fixture/server-config.yaml
   - !include fixture/api-data.yaml
+  - !include fixture/test-data.yaml
 
 stages:
   - name: Check that HTTP status code is 200 and response media type is json
     request:
       url: "{config.baseUrl:s}:{config.port:d}{endpoints.createWeather:s}"
       json:
-        city: "berlin"
-        date: "11/06/2023"
-        temperature: 26
+        city: "{valid.validCity:s}"
+        date: "{valid.validDate:s}"
+        temperature: "{valid.validTemp:f}"
       method: POST
       headers:
         Authorization: "{headers.auth:s}"
@@ -51,15 +53,16 @@ test_name: Try to create a weather entry with empty value in city
 includes:
   - !include fixture/server-config.yaml
   - !include fixture/api-data.yaml
+  - !include fixture/test-data.yaml
 
 stages:
-  - name: Check that HTTP status code is 401
+  - name: Check that HTTP status code is 400
     request:
       url: "{config.baseUrl:s}:{config.port:d}{endpoints.createWeather:s}"
       json:
         city: ""
-        date: "11/06/2023"
-        temperature: 26
+        date: "{valid.validDate:s}"
+        temperature: "{valid.validTemp:f}"
       method: POST
       headers:
         Authorization: "{headers.auth:s}"
@@ -74,15 +77,16 @@ test_name: Try to create a weather entry with empty value in date
 includes:
   - !include fixture/server-config.yaml
   - !include fixture/api-data.yaml
+  - !include fixture/test-data.yaml
 
 stages:
-  - name: Check that HTTP status code is 401
+  - name: Check that HTTP status code is 400
     request:
       url: "{config.baseUrl:s}:{config.port:d}{endpoints.createWeather:s}"
       json:
-        city: "berlin"
+        city: "{valid.validCity:s}"
         date: ""
-        temperature: 26
+        temperature: "{valid.validTemp:f}"
       method: POST
       headers:
         Authorization: "{headers.auth:s}"
@@ -97,14 +101,15 @@ test_name: Try to create a weather entry with empty value in temperature
 includes:
   - !include fixture/server-config.yaml
   - !include fixture/api-data.yaml
+  - !include fixture/test-data.yaml
 
 stages:
-  - name: Check that HTTP status code is 401
+  - name: Check that HTTP status code is 400
     request:
       url: "{config.baseUrl:s}:{config.port:d}{endpoints.createWeather:s}"
       json:
-        city: "berlin"
-        date: "11/06/2023"
+        city: "{valid.validCity:s}"
+        date: "{valid.validDate:s}"
         temperature:
       method: POST
       headers:
@@ -120,15 +125,16 @@ test_name: Try to create a weather entry with wrong date format
 includes:
   - !include fixture/server-config.yaml
   - !include fixture/api-data.yaml
+  - !include fixture/test-data.yaml
 
 stages:
-  - name: Check that HTTP status code is 401
+  - name: Check that HTTP status code is 400
     request:
       url: "{config.baseUrl:s}:{config.port:d}{endpoints.createWeather:s}"
       json:
-        city: "berlin"
-        date: "11.01.2023"
-        temperature: 26
+        city: "{valid.validCity:s}"
+        date: "{invalid.invalidDate:s}"
+        temperature: "{valid.validTemp:f}"
       method: POST
       headers:
         Authorization: "{headers.auth:s}"
@@ -145,7 +151,7 @@ includes:
   - !include fixture/api-data.yaml
 
 stages:
-  - name: Check that HTTP status code is 401
+  - name: Check that HTTP status code is 400
     request:
       url: "{config.baseUrl:s}:{config.port:d}{endpoints.createWeather:s}"
       method: POST
@@ -187,7 +193,6 @@ stages:
       method: GET
       headers:
         Authorization: "{headers.auth:s}"
-        content-type: "{headers.contentType:s}"
     response:
       status_code: 200
       json: []
@@ -199,6 +204,7 @@ test_name: Get weather entry with city
 includes:
   - !include fixture/server-config.yaml
   - !include fixture/api-data.yaml
+  - !include fixture/test-data.yaml
 
 stages:
   - name: Check that HTTP status code is 200
@@ -206,10 +212,9 @@ stages:
       url: "{config.baseUrl:s}:{config.port:d}{endpoints.getWeather:s}"
       method: GET
       params:
-        city: "berlin"
+        city: "{valid.validCity:s}"
       headers:
         Authorization: "{headers.auth:s}"
-        content-type: "{headers.contentType:s}"
     response:
       status_code: 200
       headers:
@@ -222,6 +227,7 @@ test_name: Get weather entry with date
 includes:
   - !include fixture/server-config.yaml
   - !include fixture/api-data.yaml
+  - !include fixture/test-data.yaml
 
 stages:
   - name: Check that HTTP status code is 200
@@ -229,10 +235,9 @@ stages:
       url: "{config.baseUrl:s}:{config.port:d}{endpoints.getWeather:s}"
       method: GET
       params:
-        date: "11/06/2023"
+        date: "{valid.validDate:s}"
       headers:
         Authorization: "{headers.auth:s}"
-        content-type: "{headers.contentType:s}"
     response:
       status_code: 200
       headers:
@@ -245,17 +250,17 @@ test_name: Get weather entry with date in wrong format
 includes:
   - !include fixture/server-config.yaml
   - !include fixture/api-data.yaml
+  - !include fixture/test-data.yaml
 
 stages:
-  - name: Check that HTTP status code is 200
+  - name: Check that HTTP status code is 500
     request:
       url: "{config.baseUrl:s}:{config.port:d}{endpoints.getWeather:s}"
       method: GET
       params:
-        date: "11.06.2023"
+        date: "{invalid.invalidDate:s}"
       headers:
         Authorization: "{headers.auth:s}"
-        content-type: "{headers.contentType:s}"
     response:
       status_code: 500
 
