@@ -18,15 +18,25 @@ This project automates a couple of APIs built with SpringBoot [from this project
 
   >   pip install tavern
 
+- Install *pykwwalify* dependency for schema validation by running the following command from your terminal:
+  >   pip install pykwalify
+
 ## Project Import
 1. Clone the project from GitHub or download the project and unzip it
 2. Open your IDE and import the project 
 
 ## How to Run
-- You can run the project from your IDE by following the steps:
+
+1. To run the API tests and then clearing the data from redis cache you have to follow one of the two ways below:
+
+- You can run the full project from your IDE by following the steps:
     1. Open the python file **main.py** from your *{project_root}*
     2. Run this file
-- You can run the project from command prompt or terminal by executing the following command from your *{project_root}*:
+- From your *{project_root}*, run the following command from terminal:
+
+  >   python main.py
+
+2. You can run only the api tests using command prompt or terminal by executing the following command from your *{project_root}*:
 
   >   tavern-ci test_weather-api.tavern.yaml
 
