@@ -56,7 +56,8 @@ stages:
               city:
                 type: str
               date:
-                type: str
+                type: date
+                format: "%d/%m/%Y"
               temperature:
                 type: float
 
@@ -233,6 +234,24 @@ stages:
       status_code: 200
       headers:
         Content-Type: "{headers.contentType:s}"
+      verify_response_with:
+        function: tavern.helpers:validate_pykwalify
+        extra_kwargs:
+          schema:
+            type: seq
+            required: True
+            sequence:
+              - type: map
+                mapping:
+                  id:
+                    type: str
+                  city:
+                    type: str
+                  date:
+                    type: date
+                    format: "%d/%m/%Y"
+                  temperature:
+                    type: float
 
 ---
 
@@ -256,6 +275,24 @@ stages:
       status_code: 200
       headers:
         Content-Type: "{headers.contentType:s}"
+      verify_response_with:
+        function: tavern.helpers:validate_pykwalify
+        extra_kwargs:
+          schema:
+            type: seq
+            required: True
+            sequence:
+              - type: map
+                mapping:
+                  id:
+                    type: str
+                  city:
+                    type: str
+                  date:
+                    type: date
+                    format: "%d/%m/%Y"
+                  temperature:
+                    type: float
 
 ---
 
